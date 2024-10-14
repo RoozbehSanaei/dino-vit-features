@@ -5,13 +5,13 @@ from part_cosegmentation import find_part_cosegmentation, draw_part_cosegmentati
 from correspondences import find_correspondences, draw_correspondences
 
 images_paths = ['images/cat.jpg', 'images/ibex.jpg']  # Choose loading size
-load_size = 360  # Choose loading size
+load_size = (364,504)  # Choose loading size
 layer = 11  # Choose layer of descriptor
 facet = 'key'  # Choose facet of descriptor
 bin = False  # Choose if to use a binned descriptor
 thresh = 0.065  # Choose fg / bg threshold
-model_type = 'dino_vits8'  # Choose model type
-stride = 4  # Choose stride
+model_type = 'dinov2_vits14'  # Choose model type
+stride = 2  # Choose stride
 elbow = 0.975  # Choose elbow coefficient for setting number of clusters
 votes_percentage = 75  # Choose percentage of votes to make a cluster salient
 remove_outliers = False  # Choose whether to remove outlier images

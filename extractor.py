@@ -43,7 +43,7 @@ class ViTExtractor:
         self.model = ViTExtractor.patch_vit_resolution(self.model, stride=stride)
         self.model.eval()
         self.model.to(self.device)
-        self.p = self.model.patch_embed.patch_size
+        self.p = self.model.patch_embed.patch_size[0]
         self.stride = self.model.patch_embed.proj.stride
 
         self.mean = (0.485, 0.456, 0.406) if "dino" in self.model_type else (0.5, 0.5, 0.5)
@@ -63,7 +63,7 @@ class ViTExtractor:
         :return: the model
         """
         if 'dino' in model_type:
-            model = torch.hub.load('facebookresearch/dino:main', model_type)
+            model = torch.hub.load('facebookresearch/dinov2', model_type)
         else:  # model from timm -- load weights from timm to dino model (enables working on arbitrary size images).
             temp_model = timm.create_model(model_type, pretrained=True)
             model_type_dict = {
@@ -123,7 +123,7 @@ class ViTExtractor:
         :param stride: the new stride parameter.
         :return: the adjusted model
         """
-        patch_size = model.patch_embed.patch_size
+        patch_size = model.patch_embed.patch_size[0]
         if stride == patch_size:  # nothing to do
             return model
 
@@ -308,7 +308,7 @@ class ViTExtractor:
         :param batch: batch to extract saliency maps for. Has shape BxCxHxW.
         :return: a tensor of saliency maps. has shape Bxt-1
         """
-        assert self.model_type == "dino_vits8", f"saliency maps are supported only for dino_vits model_type."
+        #assert self.model_type == "dino_vits8", f"saliency maps are supported only for dino_vits model_type."
         self._extract_features(batch, [11], 'attn')
         head_idxs = [0, 2, 4, 5]
         curr_feats = self._feats[0] #Bxhxtxt

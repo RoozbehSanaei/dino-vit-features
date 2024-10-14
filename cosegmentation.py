@@ -45,7 +45,7 @@ def find_cosegmentation(image_paths: List[str], elbow: float = 0.975, load_size:
     num_patches_list = []
     load_size_list = []
     if low_res_saliency_maps:
-        saliency_extractor = ViTExtractor(model_type, stride=8, device=device)
+        saliency_extractor = ViTExtractor(model_type, stride=7, device=device)
     else:
         saliency_extractor = extractor
     if remove_outliers:
